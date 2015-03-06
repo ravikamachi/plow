@@ -1,0 +1,46 @@
+Metadata-Version: 1.1
+Name: plow
+Version: 0.1.0
+Summary: Ryu sFlow to influxdb app
+Home-page: https://github.com/jkoelker/plow
+Author: Jason Kölker
+Author-email: jason@koelker.net
+License: Apache
+Description: ===============================
+        plow
+        ===============================
+        
+        .. image:: https://badge.fury.io/py/plow.png
+            :target: http://badge.fury.io/py/plow
+        
+        .. image:: https://travis-ci.org/jkoelker/plow.png?branch=master
+                :target: https://travis-ci.org/jkoelker/plow
+        
+        .. image:: https://pypip.in/d/plow/badge.png
+                :target: https://pypi.python.org/pypi/plow
+        
+        
+        Python sFlow library and collector
+        
+        * Free software: BSD license
+        * Documentation: https://plow.readthedocs.org.
+        
+        Features
+        --------
+        
+        .. code-block:: bash
+        
+            ryu-manager --verbose /path/to/plow/manager.py
+        
+Keywords: plow
+Platform: UNKNOWN
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4

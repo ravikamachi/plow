@@ -17,7 +17,8 @@ from ryu import cfg
 from ryu.base import app_manager
 from ryu.lib import hub
 from ryu.lib.xflow import sflow
-
+from ryu.lib.packet.ethernet import ethernet
+from ryu.lib.packet.ipv4 import ipv4
 
 opts = [cfg.StrOpt('address', default='0.0.0.0',
                    help='sFlow Collector bind address'),
@@ -42,6 +43,45 @@ class SFlow(app_manager.RyuApp):
 
         if not packet:
             return
+        # sFlowV5RawPacketHeader
+        flow_data = None
+
+        for sFlow_v5_samples in packet.samples:
+            if sFlow_v5_samples is not None:
+                sFlow_v5_sample = sFlow_v5_samples.sample
+                if type(sFlow_v5_sample) is sflow.sFlowV5FlowSample:
+                    for flow_record in sFlow_v5_sample.flow_records:
+                        if flow_record.flow_data_format == 1:
+                            fl_data = flow_record.flow_data
+                            if type(fl_data) is sflow.sFlowV5RawPacketHeader:
+                                flow_data = flow_record.flow_data
+
+        header_str = ''
+        if flow_data is not None:
+            for key in flow_data.header:
+                header_str += key
+            res, ptype, e_buf = ethernet.parser(header_str)
+            print("src: %s" % res.src)
+            print("dst: %s" % res.dst)
+
+            ipv4res, ipv4ptype, _ = ipv4.parser(e_buf)
+            print("version: %s" % ipv4res.version)
+            print("header length: %s" % ipv4res.header_length)
+            print("tos: %s" % ipv4res.tos)
+            print("total length: %s" % ipv4res.total_length)
+            print("identification: %s" % ipv4res.identification)
+            print("flags: %s" % ipv4res.flags)
+            print("offset: %s" % ipv4res.offset)
+            print("ttl: %s" % ipv4res.ttl)
+            print("proto: %s" % ipv4res.proto)
+            print("csum: %s" % ipv4res.csum)
+            print("src: %s" % ipv4res.src)
+            print("dest: %s" % ipv4res.dst)
+            print("proto type: %s" % ptype)
+
+        print flow_data
+
+
 
         print packet.__dict__
 
